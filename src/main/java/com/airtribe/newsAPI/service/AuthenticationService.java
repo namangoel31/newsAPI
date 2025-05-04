@@ -94,9 +94,5 @@ public class AuthenticationService implements UserDetailsService {
         return user;
     }
 
-//    public String getNewsArticles(String token) {
-//        verificationToken tokenObj = verificationTokenRepository.findByToken(token);
-//        newsUser user = tokenObj.getUser();
-//        String pref = user.getPreferences();
-//    }
+
 }

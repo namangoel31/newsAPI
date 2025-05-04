@@ -1,11 +1,14 @@
 package com.airtribe.newsAPI.controller;
 
+import com.airtribe.newsAPI.dto.ArticlesWrapper;
 import com.airtribe.newsAPI.dto.UserDTO;
 import com.airtribe.newsAPI.entity.newsUser;
 import com.airtribe.newsAPI.repository.UserRepository;
 import com.airtribe.newsAPI.service.AuthenticationService;
+import com.airtribe.newsAPI.service.apiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 @RestController
 public class UserController {
@@ -14,6 +17,8 @@ public class UserController {
     AuthenticationService authenticationService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    apiService apiService;
 
     @PostMapping("/api/register")
     public newsUser register(@RequestBody UserDTO user){
@@ -45,8 +50,8 @@ public class UserController {
         return authenticationService.updateUserPreferences(token,preferences);
     }
 
-//    @GetMapping("/api/news")
-//    public Mono<ApiResult> news(@RequestHeader("Authorization") String token){
-//        return authenticationService.getNewsArticles(token);
-//    }
+    @GetMapping("/api/news")
+    public Mono<ArticlesWrapper> news(@RequestHeader("Authorization") String token){
+        return apiService.getNewsArticles(token);
+    }
 }
