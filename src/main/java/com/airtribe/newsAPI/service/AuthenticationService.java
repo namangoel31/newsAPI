@@ -73,11 +73,7 @@ public class AuthenticationService implements UserDetailsService {
 
         boolean arePasswordsMatch = passwordEncoder.matches(password, registeredUser.getPassword());
         if (arePasswordsMatch) {
-//            verificationToken tokenObj = new verificationToken();
             String token = JwtUtil.generateToken(username);
-//            tokenObj.setToken(JwtUtil.generateToken(username));
-//            tokenObj.setUser(registeredUser);
-//            verificationTokenRepository.save(tokenObj);
             return token;
 
         }
@@ -85,33 +81,17 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     public String getUserPreferences(String token) {
-//        verificationToken tokenObj = verificationTokenRepository.findByToken(token);
-//        newsUser user = tokenObj.getUser();
-//        return user.getPreferences();
-        boolean validToken = validateJwtToken(token);
-        if (validToken) {
-            String username = getUsernameFromJwtToken(token);
-            newsUser userDetails = userRepository.findByUsername(username);
-            return userDetails.getPreferences();
-        }else {
-            return "user not authenticated";
-        }
+        String username = getUsernameFromJwtToken(token);
+        newsUser userDetails = userRepository.findByUsername(username);
+        return userDetails.getPreferences();
     }
 
     public newsUser updateUserPreferences(String token, String preferences) {
-//        verificationToken tokenObj = verificationTokenRepository.findByToken(token);
-//        newsUser user = tokenObj.getUser();
-//        user.setPreferences(preferences);
-        boolean validToken = validateJwtToken(token);
-        if (validToken) {
-            String username = getUsernameFromJwtToken(token);
-            newsUser user = userRepository.findByUsername(username);
-            user.setPreferences(preferences);
-            userRepository.save(user);
-            return user;
-        }else{
-            return null;
-        }
+        String username = getUsernameFromJwtToken(token);
+        newsUser user = userRepository.findByUsername(username);
+        user.setPreferences(preferences);
+        userRepository.save(user);
+        return user;
     }
 
 //    public String getNewsArticles(String token) {
