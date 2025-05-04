@@ -26,4 +26,12 @@ public class JwtUtil {
                 .getBody();
         return claims.getExpiration().after(new Date());
     }
+
+    public static String getUsernameFromJwtToken(String authenticationHeader) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(authenticationHeader)
+                .getBody();
+        return claims.getSubject();
+    }
 }

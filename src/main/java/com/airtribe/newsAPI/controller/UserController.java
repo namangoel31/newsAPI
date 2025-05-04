@@ -45,8 +45,8 @@ public class UserController {
         return authenticationService.updateUserPreferences(token,preferences);
     }
 
-    @GetMapping("/api/news")
-    public Mono<ApiResult> news(@RequestHeader("Authorization") String token){
-        return authenticationService.getNewsArticles(token);
-    }
+//    @GetMapping("/api/news")
+//    public Mono<ApiResult> news(@RequestHeader("Authorization") String token){
+//        return authenticationService.getNewsArticles(token);
+//    }
 }
