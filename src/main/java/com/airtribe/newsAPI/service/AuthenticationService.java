@@ -17,6 +17,9 @@ import com.airtribe.newsAPI.utils.JwtUtil;
 import java.util.Collections;
 import java.util.Date;
 
+import static com.airtribe.newsAPI.utils.JwtUtil.getUsernameFromJwtToken;
+import static com.airtribe.newsAPI.utils.JwtUtil.validateJwtToken;
+
 @Service
 public class AuthenticationService implements UserDetailsService {
 
@@ -70,11 +73,7 @@ public class AuthenticationService implements UserDetailsService {
 
         boolean arePasswordsMatch = passwordEncoder.matches(password, registeredUser.getPassword());
         if (arePasswordsMatch) {
-            verificationToken tokenObj = new verificationToken();
             String token = JwtUtil.generateToken(username);
-            tokenObj.setToken(JwtUtil.generateToken(username));
-            tokenObj.setUser(registeredUser);
-            verificationTokenRepository.save(tokenObj);
             return token;
 
         }
@@ -82,22 +81,18 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     public String getUserPreferences(String token) {
-        verificationToken tokenObj = verificationTokenRepository.findByToken(token);
-        newsUser user = tokenObj.getUser();
-        return user.getPreferences();
+        String username = getUsernameFromJwtToken(token);
+        newsUser userDetails = userRepository.findByUsername(username);
+        return userDetails.getPreferences();
     }
 
     public newsUser updateUserPreferences(String token, String preferences) {
-        verificationToken tokenObj = verificationTokenRepository.findByToken(token);
-        newsUser user = tokenObj.getUser();
+        String username = getUsernameFromJwtToken(token);
+        newsUser user = userRepository.findByUsername(username);
         user.setPreferences(preferences);
         userRepository.save(user);
         return user;
     }
 
-    public String getNewsArticles(String token) {
-        verificationToken tokenObj = verificationTokenRepository.findByToken(token);
-        newsUser user = tokenObj.getUser();
-        String pref = user.getPreferences();
-    }
+
 }
