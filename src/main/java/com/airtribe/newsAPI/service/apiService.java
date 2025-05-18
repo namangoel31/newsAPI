@@ -30,7 +30,7 @@ public class apiService {
     UserRepository userRepository;
 
 //    NewsApiClient newsApiClient = new NewsApiClient("YOUR_API_KEY");
-    private static String apiKey = "c86279ab-5f9b-4b02-bda4-1b7317513cc1";
+    private static String apiKey = "";
 
 //    public String getNewsArticles(String token) {
 //        verificationToken tokenObj = verificationTokenRepository.findByToken(token);
